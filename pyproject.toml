@@ -21,6 +21,8 @@ dependencies = [
 [project.urls]
 Homepage = "https://traceiq.dev"
 Documentation = "https://traceiq.gitbook.io/traceiq-docs"
+Repository = "https://github.com/CodeKnotAI/traceiq-sdk"
+Issues = "https://github.com/CodeKnotAI/traceiq-sdk/issues"
 
 [project.optional-dependencies]
 # >=0.62.4: version verified to emit ONE priced llm span for LangChain→OpenAI
