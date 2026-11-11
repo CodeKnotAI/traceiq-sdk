@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "traceiq-sdk"
+version = "0.3.0"
+description = "TraceIQ SDK: see what your AI agents cost, per run, agent, customer and person (OpenTelemetry)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "TraceIQ", email = "support@traceiq.dev" }]
+keywords = ["ai", "observability", "opentelemetry", "otlp", "llm", "cost"]
+
+dependencies = [
+    "opentelemetry-api>=1.27.0",
+    "opentelemetry-sdk>=1.27.0",
+    "opentelemetry-exporter-otlp-proto-http>=1.27.0",
+]
+
+[project.urls]
+Homepage = "https://traceiq.dev"
+Documentation = "https://traceiq.gitbook.io/traceiq-docs"
+
+[project.optional-dependencies]
+# >=0.62.4: version verified to emit ONE priced llm span for LangChain→OpenAI
+# (nested openai.chat is suppressed), i.e. no double-counted cost.
+openai = ["opentelemetry-instrumentation-openai>=0.62.4", "openai"]
+anthropic = ["opentelemetry-instrumentation-anthropic>=0.62.4"]
+langchain = ["opentelemetry-instrumentation-langchain>=0.62.4"]
+langgraph = ["opentelemetry-instrumentation-langchain>=0.62.4", "langgraph"]
+llamaindex = ["opentelemetry-instrumentation-llamaindex>=0.62.4"]
+all = [
+    "opentelemetry-instrumentation-openai>=0.62.4",
+    "opentelemetry-instrumentation-anthropic>=0.62.4",
+    "opentelemetry-instrumentation-langchain>=0.62.4",
+    "opentelemetry-instrumentation-llamaindex>=0.62.4",
+    "openai",
+]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.23"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/traceiq"]
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/tests", "/README.md", "/LICENSE", "/example.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+asyncio_mode = "auto"
